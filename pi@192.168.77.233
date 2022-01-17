@@ -13,7 +13,7 @@ class Blockchain:
         self.chain =  []
         self.tranactions = []
         self.create_block(proof = 1, previous_hash = '0')
-        self.nodes = set()
+        self.node = set()
 
     def create_block (self,proof,previous_hash):
         block = { 'index': len(self.chain) + 1, 'timestamp': str(datetime.datetime.now()), 'proof': proof, 'previous_hash': previous_hash, 'transactions': self.tranactions }
@@ -65,7 +65,7 @@ class Blockchain:
     def add_node(self, address):
         parsedUrl = urlparse(address)
         self.nodes.add(parsedUrl.netloc)
-        print(str(parsedUrl.netloc))
+        print(str(parsedUrl.netlo))
 
     def replace_chain(self):
         network = self.nodes
@@ -94,7 +94,7 @@ def mine_block():
     previous_proof = previous_block['proof']
     proof = blockchain.proof_of_work(previous_proof)
     previous_hash = blockchain.hash(previous_block)
-    blockchain.add_transaction(sender=node_address, reciever='Hideki', amount=1)
+    blockchain.add_transaction(sender=node_address, reciever='Bryant', amount=1)
     block = blockchain.create_block(proof, previous_hash)
     response = {'message': 'Block mined', 'index': block['index'], 'timestamp': block['timestamp'], 'proof': block['proof'], 'previous_hash': block['previous_hash'], 'transactions': block['transactions']}
     return jsonify(response), 200
@@ -121,15 +121,14 @@ def add_transaction():
     transaction_keys = ['sender', 'receiver', 'amount']
     if not all (key in json for key in transaction_keys):
         return 'missing elements', 400
-    index = blockchain.add_transaction(json['sender'], json['receiver'], json['amount'])
+    index = blockchain.add_transaction(json['sender'], json['receiver'], json['amount'])]
     response = {'message': f"added to block {index}"}
     return jsonify(response), 201
 
 @app.route('/connect_node', methods=['POST'])
 def connect_node():
     json = request.get_json()
-    print(json)
-    nodes = json['nodes']
+    nodes = json.get['nodes']
     if nodes is None:
         return "No node", 400
     for node in nodes:
@@ -146,4 +145,4 @@ def replace_chain():
         response = { 'message' : 'the chain was not replaced becasue it was the longest one', 'actual_chain': blockchain.chain}
     return jsonify(response), 200
 
-app.run(host='0.0.0.0', port = 5000)
+app.run(host='0.0.0.0', port = 5001)

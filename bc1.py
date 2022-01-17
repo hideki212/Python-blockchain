@@ -146,4 +146,4 @@ def replace_chain():
         response = { 'message' : 'the chain was not replaced becasue it was the longest one', 'actual_chain': blockchain.chain}
     return jsonify(response), 200
 
-app.run(host='0.0.0.0', port = 5000)
+app.run(host='0.0.0.0', port = 5003)
